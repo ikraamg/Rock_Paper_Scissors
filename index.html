@@ -28,6 +28,10 @@
 			function playRound() {
 				let computerSelection = computerPlay();
 				let playerSelection = playerPrompt();
+				while (playerSelection == "invalid") {
+					alert("Invalid input, please try again.");
+					playerSelection = playerPrompt();
+				}
 				if (playerSelection == computerSelection) {
 					return `Draw! its ${playerSelection} and ${computerSelection}.`;
 				} else if (
@@ -80,9 +84,8 @@
 				) {
 					return userEntry;
 				} else {
-					alert("Invalid input, please enter 'rock', 'paper' or 'scissors'");
+					return "invalid";
 				}
-				playerPrompt();
 			}
 
 			let won = 0;
