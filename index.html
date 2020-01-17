@@ -29,7 +29,7 @@
 				let computerSelection = computerPlay();
 				let playerSelection = playerPrompt();
 				if (playerSelection == computerSelection) {
-					return `Draw! its ${playerSelection} and ${computerSelection}. Try another round.`;
+					return `Draw! its ${playerSelection} and ${computerSelection}.`;
 				} else if (
 					(playerSelection == "rock" && computerSelection == "paper") ||
 					(playerSelection == "paper" && computerSelection == "scissors") ||
@@ -42,7 +42,16 @@
 			}
 
 			function game() {
-				for (let i = 0; i < 5; i++) {
+				alert("Hi!, Welcome to Rock, Paper Scissors.");
+				rounds = prompt("How many rounds would you like to play?");
+				if (isNaN(rounds)) {
+					alert("Invalid number, rounds defaulted to 5");
+					rounds = 5;
+				} else {
+					alert("Goodluck!");
+				}
+
+				for (let i = 0; i < rounds; i++) {
 					let playGame = playRound();
 					console.log(playGame);
 					alert(playGame);
@@ -79,7 +88,7 @@
 			let won = 0;
 			let lost = 0;
 			let draw = 0;
-
+			let rounds;
 			game();
 		</script>
 	</body>
