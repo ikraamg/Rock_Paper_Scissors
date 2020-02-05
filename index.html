@@ -9,89 +9,87 @@
 	<body>
 		<script>
 			function computerPlay() {
-				let randno = Math.floor(Math.random() * 3 + 1);
+				const randno = Math.floor(Math.random() * 3 + 1);
 				switch (randno) {
 					case 1:
-						return "rock";
-						break;
+						return 'rock';
 					case 2:
-						return "paper";
-						break;
+						return 'paper';
 					case 3:
-						return "scissors";
-						break;
+						return 'scissors';
 					default:
-						return "Random Generator Error";
+						return 'Random Generator Error';
 				}
+			}
+			function playerPrompt() {
+				let userEntry = prompt('Enter rock, paper or scissors');
+				userEntry = userEntry.toLowerCase();
+				if (
+					userEntry === 'rock' ||
+					userEntry === 'paper' ||
+					userEntry === 'scissors'
+				) {
+					return userEntry;
+				}
+				return 'invalid';
 			}
 
 			function playRound() {
-				let computerSelection = computerPlay();
+				const computerSelection = computerPlay();
 				let playerSelection = playerPrompt();
-				while (playerSelection == "invalid") {
-					alert("Invalid input, please try again.");
+				while (playerSelection === 'invalid') {
+					alert('Invalid input, please try again.');
 					playerSelection = playerPrompt();
 				}
-				if (playerSelection == computerSelection) {
+				if (playerSelection === computerSelection) {
 					return `Draw! its ${playerSelection} and ${computerSelection}.`;
-				} else if (
-					(playerSelection == "rock" && computerSelection == "paper") ||
-					(playerSelection == "paper" && computerSelection == "scissors") ||
-					(playerSelection == "scissors" && computerSelection == "rock")
+				}
+				if (
+					(playerSelection === 'rock' && computerSelection === 'paper') ||
+					(playerSelection === 'paper' && computerSelection === 'scissors') ||
+					(playerSelection === 'scissors' && computerSelection === 'rock')
 				) {
 					return `Lost! ${playerSelection} lost to ${computerSelection}. Try again.`;
-				} else {
-					return `Won! ${playerSelection} won over ${computerSelection}. Very nice!`;
 				}
+				return `Won! ${playerSelection} won over ${computerSelection}. Very nice!`;
 			}
 
 			function game() {
-				alert("Hi!, Welcome to Rock, Paper Scissors.");
-				rounds = prompt("How many rounds would you like to play?");
+				let rounds = 0;
+				let won = 0;
+				let lost = 0;
+				let draw = 0;
+
+				alert('Hi!, Welcome to Rock, Paper Scissors.');
+				rounds = prompt('How many rounds would you like to play?');
+				// eslint-disable-next-line no-restricted-globals
 				if (isNaN(rounds)) {
-					alert("Invalid number, rounds defaulted to 5");
+					alert('Invalid number, rounds defaulted to 5');
 					rounds = 5;
 				} else {
-					alert("Goodluck!");
+					alert('Goodluck!');
 				}
 
-				for (let i = 0; i < rounds; i++) {
-					let playGame = playRound();
+				for (let i = 0; i < rounds; i += 1) {
+					const playGame = playRound();
 					console.log(playGame);
 					alert(playGame);
-					if (playGame[0] == "W") {
-						won = won + 1;
-					} else if (playGame[0] == "L") {
-						lost = lost + 1;
-					} else if (playGame[0] == "D") {
-						draw = draw + 1;
+					if (playGame[0] === 'W') {
+						won += 1;
+					} else if (playGame[0] === 'L') {
+						lost += 1;
+					} else if (playGame[0] === 'D') {
+						draw += 1;
 					} else {
-						alert("Error!");
+						alert('Error!');
 					}
 				}
 
-				let output = `You won ${won} times, you lost ${lost} times and there were ${draw} drawn games.`;
+				const output = `You won ${won} times, you lost ${lost} times and there were ${draw} drawn games.`;
 				console.log(output);
 				alert(output);
 			}
-			function playerPrompt() {
-				let userEntry = prompt("Enter rock, paper or scissors");
-				userEntry = userEntry.toLowerCase();
-				if (
-					userEntry == "rock" ||
-					userEntry == "paper" ||
-					userEntry == "scissors"
-				) {
-					return userEntry;
-				} else {
-					return "invalid";
-				}
-			}
 
-			let won = 0;
-			let lost = 0;
-			let draw = 0;
-			let rounds;
 			game();
 		</script>
 	</body>
