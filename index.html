@@ -5,9 +5,21 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Rock Paper Scissors</title>
+		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
+		<div id="buttons">
+			<button id="rock">Rock</button>
+			<button id="paper">Paper</button>
+			<button id="scissors">Scissors</button>
+		</div>
+
+		<div id="dispResults">Click a button to play!</div>
+
 		<script>
+			let won = 0;
+			let lost = 0;
+			let draw = 0;
 			function computerPlay() {
 				const randno = Math.floor(Math.random() * 3 + 1);
 				switch (randno) {
@@ -21,26 +33,9 @@
 						return 'Random Generator Error';
 				}
 			}
-			function playerPrompt() {
-				let userEntry = prompt('Enter rock, paper or scissors');
-				userEntry = userEntry.toLowerCase();
-				if (
-					userEntry === 'rock' ||
-					userEntry === 'paper' ||
-					userEntry === 'scissors'
-				) {
-					return userEntry;
-				}
-				return 'invalid';
-			}
 
-			function playRound() {
+			function playRound(playerSelection) {
 				const computerSelection = computerPlay();
-				let playerSelection = playerPrompt();
-				while (playerSelection === 'invalid') {
-					alert('Invalid input, please try again.');
-					playerSelection = playerPrompt();
-				}
 				if (playerSelection === computerSelection) {
 					return `Draw! its ${playerSelection} and ${computerSelection}.`;
 				}
@@ -53,44 +48,69 @@
 				}
 				return `Won! ${playerSelection} won over ${computerSelection}. Awesome!`;
 			}
+			let roundno = 1;
+			const dispResults = document.getElementById('dispResults');
+			const roundFinish = document.createElement('p');
+			const state = document.createElement('p');
+			const clickerRock = document.getElementById('rock');
+			const clickerPaper = document.getElementById('paper');
+			const clickerScissors = document.getElementById('scissors');
+			const resultAt5 = document.createElement('p');
 
-			function game() {
-				let rounds = 0;
-				let won = 0;
-				let lost = 0;
-				let draw = 0;
-
-				alert('Hi!, Welcome to Rock, Paper Scissors.');
-				rounds = prompt('How many rounds would you like to play?');
-				// eslint-disable-next-line no-restricted-globals
-				if (isNaN(rounds)) {
-					alert('Invalid number, rounds defaulted to 5');
-					rounds = 5;
-				} else {
-					alert('Goodluck!');
+			function display(inputted) {
+				resultAt5.textContent = '';
+				dispResults.appendChild(resultAt5);
+				const textout = `${playRound(inputted)}`;
+				roundFinish.textContent = textout;
+				dispResults.appendChild(roundFinish);
+				roundno += 1;
+				if (textout[0] === 'W') {
+					won += 1;
+				} else if (textout[0] === 'L') {
+					lost += 1;
+				} else if (textout[0] === 'D') {
+					draw += 1;
 				}
-
-				for (let i = 0; i < rounds; i += 1) {
-					const playGame = playRound();
-					console.log(playGame);
-					alert(playGame);
-					if (playGame[0] === 'W') {
-						won += 1;
-					} else if (playGame[0] === 'L') {
-						lost += 1;
-					} else if (playGame[0] === 'D') {
-						draw += 1;
-					} else {
-						alert('Error!');
-					}
-				}
-
 				const output = `You won ${won} times, you lost ${lost} times and there were ${draw} drawn games.`;
-				console.log(output);
-				alert(output);
+				state.textContent = output;
+				dispResults.appendChild(state);
+				if (roundno >= 6) {
+					if (lost > won) {
+						resultAt5.textContent = 'The Computer won!, let us start again!';
+						resultAt5.style.backgroundColor = 'red';
+					} else if (lost === won) {
+						resultAt5.textContent = "It's a draw, let us start again!";
+						resultAt5.style.backgroundColor = 'grey';
+					} else {
+						resultAt5.textContent = 'You won!, let us start again!';
+						resultAt5.style.backgroundColor = 'green';
+					}
+
+					resultAt5.style.fontSize = '30px';
+					dispResults.appendChild(resultAt5);
+					roundFinish.textContent = '';
+					dispResults.appendChild(roundFinish);
+					won = 0;
+					lost = 0;
+					draw = 0;
+					roundno = 1;
+				}
 			}
 
-			game();
+			clickerPaper.addEventListener('click', function() {
+				const inputted = 'paper';
+				display(inputted);
+			});
+
+			clickerScissors.addEventListener('click', function() {
+				const inputted = 'scissors';
+				display(inputted);
+			});
+			// game();
+			clickerRock.addEventListener('click', function() {
+				const inputted = 'rock';
+				display(inputted);
+			});
 		</script>
 	</body>
 </html>
